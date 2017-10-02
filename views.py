@@ -12,12 +12,14 @@ class Product_list(View):
         category = None
         categories = Category.objects.all()
         products = Product.objects.filter(available=True)
+        applications = Application.objects.all()
         if category_slug:
             category = get_object_or_404(Category, slug=category_slug)
             products = products.filter(category=category)
         return render(request, 'shop/product/list.html', {'category': category,
                                                           'categories': categories,
-                                                          'products': products})
+                                                          'products': products,
+                                                          'applications': applications})
 
     def post(self, request):
         pass
