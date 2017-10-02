@@ -1,34 +1,50 @@
-{% extends "shop/base.html" %}
+{% extends "baseapp/base.html" %}
 {% load static %}
 
-{% block title %}
-{% if category %}{{ category.name }}{% else %}Products{% endif %}
+{% block header %}
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+      <link rel="icon" type="{% static "image/icone.png"%}" href="logo.png" />
+      <title>{% if category %}{{ category.name }}{% else %}Produits{% endif %}</title>
+      <meta name="description" content="{% if category %}{{ category.slug }}{% else %}liste des Produits Streaos{% endif %}" />
+    <link rel="stylesheet" href="{% static "css/foundation.css" %}">
+    <link rel="stylesheet" href="{% static "css/app.css" %}">
+  </head>
+
 {% endblock %}
 
-{% block content %}
-  <div id="sidebar">
-    <h3>Categories</h3>
-    <ul>
-      <li {% if not category%}class="selected"{% endif %}>
-        <a href="{% url "shop:product_list"%}">All</a>
-      </li>
-      {% for c in categories %}
-      <li {% if category.slug == c.slug %}class="selected" {% endif %}>
-        <a href="{{ c.get_abolute_url }}">{{ c.name }}</a>
-      </li>
-      {% endfor %}
-    </ul>
-  </div>
-<div id="main" class="product_list">
-  <h1>{% if category %}{{ category.name }}{% else %}Products{% endif %}</h1>
-  {% for product in products %}
-  <div class="item">
-    <a href="{{ product.get_abolute_url }}">
-      <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "images/no-image.jpg" %}{% endif %}"
-    <a href="{{ product.get_abolute_url }}">{{ product.name }}</a><br>
-    ${{ product.price }}
-  </div>
 
-  {% endfor %}
+{% block content %}
+  <button class="button" type="button" data-toggle="categorie-dropdown">Categories</button>
+  <div class="dropdown-pane" id="categorie-dropdown" data-dropdown data-hover="true" data-hover-pane="true">
+      <ul>
+        <li {% if not category%}class="selected"{% endif %}>
+          <a href="{% url "shop:product_list"%}">All</a>
+        </li>
+        {% for c in categories %}
+        <li {% if category.slug == c.slug %}class="selected" {% endif %}>
+          <a href="{{ c.get_abolute_url }}">{{ c.name }}</a>
+        </li>
+        {% endfor %}
+      </ul>
+  </div>
+  <h1>{% if category %}{{ category.name }}{% else %}Products{% endif %}</h1>
+ 
+  <div class="grid-x grid-margin-x small-up-2 medium-up-3 large-up-4">
+    {% for product in products %}
+<div class="cell">
+<img class="thumbnail" src="{% if product.image %}{{ product.image.url }}{% else %}{% static "images/no-image.jpg" %}{% endif %}">
+<h2 class="text-center"><a href="{{ product.get_abolute_url }}">{{ product.name }}</a></h2>
+<p class="text-center">EUR {{ product.price }}</p>
 </div>
+<br/>
+{% endfor %}
+</div>
+  
+
+
 {% endblock %}

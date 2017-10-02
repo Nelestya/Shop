@@ -1,21 +1,50 @@
-{% extends 'shop/base.html' %}
+{% extends 'baseapp/base.html' %}
 {% load static %}
 
-{% block title %}
-{% if category %}{{ category.title }}{% else %}Products{% endif %}
+{% block header %}
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+      <link rel="icon" type="{% static "image/icone.png"%}" href="logo.png" />
+      <title>{{ product.name }}</title>
+      <meta name="description" content="{% if product %}{{ product.description }}{% endif %}" />
+      <meta http-equiv="date" content="{% if product %}{{ product.created }}{% endif %}">
+
+    <link rel="stylesheet" href="{% static "css/foundation.css" %}">
+    <link rel="stylesheet" href="{% static "css/app.css" %}">
+  </head>
+
 {% endblock %}
 
+
+
 {% block content %}
-    <div class="product-detail">
-        <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "images/no-image.jpg" %}{% endif %}">
-        <h1>{{ product.name }}</h1>
-        <h2><a href="{{ product.category.get_absolute_url }}">{{ product.category }}</a></h2>
-        <p class="price">${{ product.price }}</p>
-        <form action="{% url "cart:cart_add" product.id %}" method="post">
-            {{ cart_product_form }}
-            {% csrf_token %}
-            <input type="submit" value="Add to cart">
-        </form>
-        {{ product.description|linebreaks }}
+    <br/>
+<div class="grid-x">
+    <div class="medium-6 cell">
+        <img class="thumbnail" src="{% if product.image %}{{ product.image.url }}{% else %}{% static "images/no-image.jpg" %}{% endif %}" alt="{{ product.name }}">
     </div>
+    <div class="medium-6 large-5 cell">
+        
+        <h1 id="product-name">{{ product.name }}</h1>
+        <p>{{ product.description|linebreaks }}</p>
+        <p class="price">EUR {{ product.price }}</p>
+            <form action="{% url "cart:cart_add" product.id %}" method="post" id="formproduct">
+                {{ cart_product_form }}
+                {% csrf_token %}
+                <button class="button large expanded" type="submit" form="formproduct" value="Submit">Buy Now</button>
+            </form>
+        <br/>
+        <div class="small secondary expanded button-group">
+            <a class="button">Facebook</a>
+            <a class="button">Twitter</a>
+            <a class="button">Yo</a>
+        </div>
+    </div>
+</div>
+<br/>
 {% endblock %}
+
