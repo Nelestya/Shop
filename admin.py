@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Product
+from .models import *
 
 
 # ACTIONS
@@ -14,7 +14,6 @@ export_as_json.short_description = 'Export to JSON'
 # Register your models here.
 class ShopApplicationAdmin(admin.ModelAdmin):
     list_display = ['name', 'slug', 'updated', 'created']
-    list_editable = ['name']
     list_filter = ['name', 'updated', 'created']
     prepopulated_fields = {'slug': ('name',)}
     actions = [export_as_json]
