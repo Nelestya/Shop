@@ -1,0 +1,41 @@
+<div class="off-canvas position-left" id="offCanvas" data-off-canvas>
+  <div>
+    <h4>Menu</h4>
+    <button class="close-button" aria-label="Close menu" type="button" data-close="">
+      <span aria-hidden="true">&times;</span>
+    </button>
+
+  </div>
+    <ul class="vertical menu menucolor">
+{# list les application par piorité #}
+{% for x in applications|dictsort:"priority" %}
+        <li><a href="{% url 'baseapp:index' %}{{ x.pk }}">{{ x.pk }}</a></li>
+{% endfor %}
+    </ul>
+  </div>
+  <div class="off-canvas-content" data-off-canvas-content>
+  </div>
+    <div class="top-bar">
+      <div class="top-bar-left">
+        <ul class="menu">
+          <li class="menu-text">
+            <span data-toggle="offCanvas">Menu</span>
+          </li>
+          <li>
+                <span>
+      {# Panier is here ! #}
+      <div class="cart">
+      {% with total_items=cart|length %}
+        {% if cart|length > 0%}
+          <a href="{% url "cart:cart_detail"%}">{{ total_items }} panier{{ total_items|pluralize }}, {{ cart.get_total }} EUR</a>
+        {% else %}
+          Your Cart is empty
+        {% endif %}
+      {% endwith %}
+    </div>
+      {# !!! #}
+    </span>
+          </li>
+        </ul>
+      </div>
+    </div>
