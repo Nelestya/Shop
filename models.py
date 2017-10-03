@@ -3,6 +3,20 @@ from django.db import models
 # Create your models here.
 from django.core.urlresolvers import reverse
 
+class ShopApplication(models.Model):
+    name = models.CharField(max_length=50, unique=True, blank=False, db_index=True)
+    slug = models.SlugField(max_length=200, db_index=True, unique=True)
+    logo_image = models.ImageField(upload_to='shop/%Y/%m/%d', blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        ordering = ('name',)
+    
+    def __str__(self):
+        return self.name
+
+
 class Category(models.Model):
     name = models.CharField(max_length=200, db_index=True)
     slug = models.SlugField(max_length=200, db_index=True, unique=True)
@@ -17,6 +31,7 @@ class Category(models.Model):
 
     def get_abolute_url(self):
         return reverse('shop:product_list_by_category', args=[self.slug])
+
 
 class Product(models.Model):
     category = models.ForeignKey(Category, related_name='products')
