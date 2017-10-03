@@ -1,38 +1,13 @@
+{% extends 'baseapp/base.html'%}
 {% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8" />
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="{% static "image/icone.png"%}" href="logo.png" />
-  <meta name="description" content="Boutique de Streaos" />
-  <meta name="author" content="Dlugosz Tristan">
-  <link rel="stylesheet" href="{% static "css/foundation.css" %}">
-  <link rel="stylesheet" href="{% static "css/app.css" %}">
-  <title>{% block title %} Boutique {% endblock %}</title>
-</head>
-<body>
-  <div id="header">
-    <a href="{% url "shop:product_list"%}" class="logo"> my shop </a>
-  </div>
-  <div id="subheader">
-    <div class="cart">
-      {% with total_items=cart|length %}
-        {% if cart|length > 0%}
-         Your cart:
-         <a href="{% url "cart:cart_detail"%}">
-           {{ total_items }} item{{ total_items|pluralize }}, ${{ cart.get_total }}
-        </a>
-        {% else %}
-          Your Cart is empty
-        {% endif %}
-      {% endwith %}
-    </div>
-  </div>
 
-  <div id="content">
+ {% block header%}
+ {% include "baseapp/head.html" %}
+ {% endblock %}
+
+    {% block navigation%}
+    {% include "shop/navigation.html" %}
+    {% endblock %}
     {% block content %}
     {% endblock %}
-  </div>
-</body>
+

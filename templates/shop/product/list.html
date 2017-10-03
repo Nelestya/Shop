@@ -1,4 +1,4 @@
-{% extends "baseapp/base.html" %}
+{% extends "shop/base.html" %}
 {% load static %}
 
 {% block header %}
@@ -45,8 +45,21 @@
 </div>
 <br/>
 {% endfor %}
+
 </div>
+<div>
+  {% if products.has_previous %}
+    <a href="?page={{ products.previous_page_number}}">Previous</a>
+  {% endif %}
   
+  <span>
+    Page {{ products.number }} of {{ products.paginator.num_pages }}.
+  </span>
+  
+  {% if products.has_next %}
+    <a href="?page={{ products.next_page_number}}">Next</a>
+  {% endif %}
+</div>  
 
 
 {% endblock %}
